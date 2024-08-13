@@ -43,3 +43,8 @@ body {
 .toggle-indicator {
   background-color: #4caf50;
 }
+
+.site-wrapper {
+  min-height: 100vh;
+  background-image: url('../../public/site-wrapper-bg.jpg');
+}

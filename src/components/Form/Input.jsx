@@ -11,8 +11,8 @@ const Input = ({
   ...rest
 }) => (
   <div className="mb-4">
-    <label className="block mb-1">
-      {label} {required && <span className="text-red-500">(Required)</span>}
+    <label className="block mb-1 font-medium text-sm">
+      {label} {required && <span className="text-red-500 text-xs">(Required)</span>}
     </label>
     <input
       {...register(name, {
@@ -23,10 +23,10 @@ const Input = ({
       })}
       type={type}
       {...(type === "number" && { step: "any" })}
-      className="w-full p-2 border rounded"
+      className="w-full p-2 border border-black border-1 rounded"
       {...rest}
     />
-    {error && <p className="text-red-500">{error}</p>}
+    {error && <p className="text-red-500 font-semibold text-sm pt-1">{error}</p>}
   </div>
 );
 

@@ -57,7 +57,9 @@ const CalculationForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-4">
+    <div className="p-8 space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} >
+      <div className="grid grid-cols-2 gap-4">
       <Input
         label="Project Name"
         name="projectName"
@@ -71,6 +73,7 @@ const CalculationForm = () => {
         name="projectLocation"
         register={register}
       />
+      
       <Input
         label="Total Project Area (Sqft)"
         name="totalProjectArea"
@@ -157,10 +160,12 @@ const CalculationForm = () => {
         control={control}
         error={errors?.isGroundFloorParkingOnly?.message}
       />
+      </div>
+      <div class="border border-indigo-600 mb-8 mt-4"></div>
       <div className="flex space-x-4">
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-indigo-500 text-white px-4 py-2 rounded"
         >
           Calculate Cost
         </button>
@@ -173,22 +178,21 @@ const CalculationForm = () => {
         </button>
       </div>
       {propertyCalculation && (
-        <div className="mt-6">
-          <h2 className="text-xl font-bold">Calculation Results</h2>
-          <ul className="list-disc ml-6 mt-2">
-            <li>
-              <strong>Total construction cost for each Tower:</strong> $
-              {propertyCalculation.costPerTower}
+        <div className="mt-6 border p-4">
+          <h2 className="text-xl font-bold border-b pb-2">Calculation Results</h2>
+          <ul className="grid grid-cols-1 divide-y">
+            <li className="py-2">
+              Total construction cost for each Tower:
+              <strong> ${propertyCalculation.costPerTower}</strong>
             </li>
-            <li>
-              <strong>Total Area Per Tower:</strong>{" "}
-              {propertyCalculation.totalAreaPerTower} Sqft
+            <li className="py-2">
+              Total Area Per Tower: {" "}<strong>{propertyCalculation.totalAreaPerTower} Sqft </strong>
             </li>
-            <li>
-              <strong>Total construction cost for project:</strong> $
-              {propertyCalculation.totalCostWithoutConversion}
+            <li className="py-2">
+              Total construction cost for project:
+              <strong> ${propertyCalculation.totalCostWithoutConversion} </strong>
             </li>
-            <li>
+            <li className="py-2 background bg-slate-100 p-2 text-sm">
               <strong>
                 Total project cost would be ${propertyCalculation.totalCost}M
                 USD
@@ -198,6 +202,7 @@ const CalculationForm = () => {
         </div>
       )}
     </form>
+    </div>
   );
 };
 
