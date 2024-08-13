@@ -17,3 +17,17 @@ export const validateNumeric = () => ({
     message: "Please enter a valid number",
   },
 });
+
+export const validateFloat = () => ({
+  pattern: {
+    value: /^\d*\.?\d*$/,
+    message: "Please enter a valid number",
+  },
+});
+
+export const validateMax = (max) => ({
+  max: {
+    value: max,
+    message: `Please enter a value less than or equal to ${max}`,
+  },
+});

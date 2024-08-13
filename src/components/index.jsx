@@ -2,11 +2,14 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Input from "./Form/Input";
 import SelectInput from "./Form/SelectInput";
+import SwitchToggle from "./Form/ToggleInput";
 import {
   APARTMENT_TYPES,
   PER_SQ_FT_COST,
   COMMON_OPTIONS,
   validateNumeric,
+  validateFloat,
+  validateMax,
 } from "@/constant";
 
 const initialValues = {
@@ -33,24 +36,36 @@ const CalculationForm = () => {
   } = useForm({
     defaultValues: initialValues,
   });
-  const [totalCost, setTotalCost] = useState(null);
+  const [propertyCalculation, setPropertyCalculation] = useState(null);
 
   const onSubmit = (data) => {
     const { totalBuiltUpArea, numberOfFloors, numberOfTowers } = data;
     const totalAreaPerTower = totalBuiltUpArea * numberOfFloors;
     const costPerTower = PER_SQ_FT_COST * totalAreaPerTower;
     const calculatedTotalCost = costPerTower * numberOfTowers;
-    setTotalCost((calculatedTotalCost / 1e6).toFixed(2));
+    setPropertyCalculation({
+      costPerTower,
+      totalAreaPerTower,
+      totalCostWithoutConversion: calculatedTotalCost,
+      totalCost: (calculatedTotalCost / 1e6).toFixed(2),
+    });
   };
 
   const handleReset = () => {
     reset(initialValues);
-    setTotalCost(null);
+    setPropertyCalculation(null);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-4">
-      <Input label="Project Name" name="projectName" register={register} />
+      <Input
+        label="Project Name"
+        name="projectName"
+        register={register}
+        required
+        error={errors?.projectName?.message}
+        maxLength={20}
+      />
       <Input
         label="Project Location"
         name="projectLocation"
@@ -60,8 +75,9 @@ const CalculationForm = () => {
         label="Total Project Area (Sqft)"
         name="totalProjectArea"
         register={register}
+        maxLength={12}
         validation={{
-          ...validateNumeric(),
+          ...validateFloat(),
         }}
         error={errors?.totalProjectArea?.message}
       />
@@ -70,6 +86,7 @@ const CalculationForm = () => {
         name="numberOfTowers"
         register={register}
         required
+        maxLength={12}
         error={errors?.numberOfTowers?.message}
         validation={{
           ...validateNumeric(),
@@ -80,8 +97,9 @@ const CalculationForm = () => {
         name="totalBuiltUpArea"
         register={register}
         required
+        maxLength={16}
         validation={{
-          ...validateNumeric(),
+          ...validateFloat(),
         }}
         error={errors?.totalBuiltUpArea?.message}
       />
@@ -90,6 +108,7 @@ const CalculationForm = () => {
         name="numberOfFloors"
         register={register}
         required
+        maxLength={12}
         validation={{
           ...validateNumeric(),
         }}
@@ -99,6 +118,7 @@ const CalculationForm = () => {
         label="Number of Units in Tower"
         name="numberOfUnits"
         register={register}
+        maxLength={12}
         validation={{
           ...validateNumeric(),
         }}
@@ -108,32 +128,34 @@ const CalculationForm = () => {
         label="Number of Units on each floor"
         name="numberOfUnitsPerFloor"
         register={register}
+        maxLength={12}
         validation={{
           ...validateNumeric(),
         }}
         error={errors?.numberOfUnitsPerFloor?.message}
       />
-      <SelectInput
+      {/*<SelectInput
         label="Type of Apartment on each floor"
         name="apartmentTypes"
         control={control}
         options={APARTMENT_TYPES}
         isMulti
-      />
+      />*/}
       <Input
         label="Total Carpet Area of each floor (Sqft)"
         name="totalCarpetArea"
         register={register}
+        maxLength={16}
         validation={{
-          ...validateNumeric(),
+          ...validateFloat(),
         }}
         error={errors?.totalCarpetArea?.message}
       />
-      <SelectInput
+      <SwitchToggle
         label="Is ground floor dedicated to Parking only?"
         name="isGroundFloorParkingOnly"
         control={control}
-        options={COMMON_OPTIONS}
+        error={errors?.isGroundFloorParkingOnly?.message}
       />
       <div className="flex space-x-4">
         <button
@@ -150,11 +172,29 @@ const CalculationForm = () => {
           Reset
         </button>
       </div>
-      {totalCost && (
+      {propertyCalculation && (
         <div className="mt-6">
-          <h2 className="text-xl font-bold">
-            Total Project Cost: ${totalCost}M USD
-          </h2>
+          <h2 className="text-xl font-bold">Calculation Results</h2>
+          <ul className="list-disc ml-6 mt-2">
+            <li>
+              <strong>Total construction cost for each Tower:</strong> $
+              {propertyCalculation.costPerTower}
+            </li>
+            <li>
+              <strong>Total Area Per Tower:</strong>{" "}
+              {propertyCalculation.totalAreaPerTower} Sqft
+            </li>
+            <li>
+              <strong>Total construction cost for project:</strong> $
+              {propertyCalculation.totalCostWithoutConversion}
+            </li>
+            <li>
+              <strong>
+                Total project cost would be ${propertyCalculation.totalCost}M
+                USD
+              </strong>
+            </li>
+          </ul>
         </div>
       )}
     </form>

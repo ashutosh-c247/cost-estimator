@@ -31,3 +31,15 @@ body {
     text-wrap: balance;
   }
 }
+
+.toggle-checkbox:checked {
+  right: 0;
+}
+
+.toggle-label {
+  background-color: #ccc;
+}
+
+.toggle-indicator {
+  background-color: #4caf50;
+}
