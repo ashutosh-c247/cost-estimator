@@ -93,30 +93,13 @@ const CalculationForm = () => {
   const recalculateUnits = (index, newValue) => {
     if (newValue < 0) return;
 
-    const totalUnits = numberOfUnits;
-
     const updatedFields = fields.map((field, i) =>
       i === index ? { ...field, value: newValue } : field
     );
 
-    const totalCurrentUnits = updatedFields.reduce(
-      (sum, field) => sum + field.value,
-      0
-    );
-
-    if (totalCurrentUnits > totalUnits) {
-      setError(`numberOfUnitsPerFloor.${index}.value`, {
-        type: "custom",
-        message:
-          "Total accumulated units for each floor cannot be more than number of units in tower",
-      });
-      return;
-    }
-
     update(updatedFields);
     updatedFields.forEach((field, i) => {
       setValue(`numberOfUnitsPerFloor.${i}.value`, field.value);
-      clearErrors(`numberOfUnitsPerFloor.${i}.value`);
     });
   };
 
@@ -162,7 +145,7 @@ const CalculationForm = () => {
                 register={register}
                 required
                 error={errors?.projectName?.message}
-                maxLength={20}
+                maxLength={50}
               />
               <Controller
                 name="projectLocation"
@@ -242,15 +225,6 @@ const CalculationForm = () => {
                 maxLength={12}
                 validation={{ ...validateNumeric() }}
                 error={errors?.numberOfFloors?.message}
-              />
-              <Input
-                label="Number of Units in Tower"
-                name="numberOfUnits"
-                register={register}
-                required
-                maxLength={12}
-                validation={{ ...validateNumeric() }}
-                error={errors?.numberOfUnits?.message}
               />
             </div>
             <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0">
