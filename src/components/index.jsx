@@ -130,14 +130,13 @@ const CalculationForm = () => {
         updatedFields[lastFieldIndex].value += additionalUnits;
       }
     }
-
-    // Ensure no value is less than 0 or exceeds totalUnits
     if (
       updatedFields.some((field) => field.value < 0 || field.value > totalUnits)
     ) {
       setError(`numberOfUnitsPerFloor.${index}.value`, {
         type: "custom",
-        message: "Value cannot be more than number of Units in Tower",
+        message:
+          "Total accumulated units for each floor cannot be more than number of Units in Tower",
       });
       return;
     }
