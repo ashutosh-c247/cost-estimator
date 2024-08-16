@@ -92,7 +92,6 @@ const CalculationForm = () => {
   const handlePreviousStep = () => setCurrentStep((prev) => prev - 1);
 
   const recalculateUnits = (index, newValue) => {
-    // Early return if newValue is negative
     if (newValue < 0) return;
 
     const totalUnits = numberOfUnits;
