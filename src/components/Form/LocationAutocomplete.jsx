@@ -32,6 +32,8 @@ const LocationAutocomplete = ({ value, onChange, onSelect, label }) => {
   useEffect(() => {
     if (debouncedQuery) {
       fetchSuggestions(debouncedQuery);
+    } else {
+      setSuggestions([]);
     }
   }, [debouncedQuery, fetchSuggestions]);
 
@@ -62,7 +64,7 @@ const LocationAutocomplete = ({ value, onChange, onSelect, label }) => {
         className="w-full p-2 border border-black border-1 rounded"
         placeholder="Search for a location"
       />
-      {suggestions.length > 0 && (
+      {query && suggestions.length > 0 && (
         <ul className="absolute z-10 bg-white border border-gray-300 mt-1 rounded-md w-full max-h-60 overflow-auto">
           {suggestions.map((suggestion) => (
             <li
