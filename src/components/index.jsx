@@ -201,14 +201,14 @@ const CalculationForm = () => {
             <div className="flex justify-between">
               <button
                 type="button"
-                className="bg-gray-500 text-white px-4 py-2 rounded"
+                className="bg-gray-500 text-white px-4 py-2 rounded transition-transform transform hover:scale-110 active:scale-90"
                 onClick={handleReset}
               >
                 Reset
               </button>
               <button
                 type="button"
-                className="bg-indigo-500 text-white px-4 py-2 rounded"
+                className="bg-indigo-500 text-white px-4 py-2 rounded transition-transform transform hover:scale-110 active:scale-90"
                 onClick={handleNextStep}
               >
                 Next
@@ -267,14 +267,14 @@ const CalculationForm = () => {
             <div className="flex justify-between">
               <button
                 type="button"
-                className="bg-gray-500 text-white px-4 py-2 rounded"
+                className="bg-gray-500 text-white px-4 py-2 rounded transition-transform transform hover:scale-110 active:scale-90"
                 onClick={handlePreviousStep}
               >
                 Previous
               </button>
               <button
                 type="button"
-                className="bg-indigo-500 text-white px-4 py-2 rounded"
+                className="bg-indigo-500 text-white px-4 py-2 rounded transition-transform transform hover:scale-110 active:scale-90"
                 onClick={handleNextStep}
               >
                 Next
@@ -331,14 +331,14 @@ const CalculationForm = () => {
             <div className="flex justify-between">
               <button
                 type="button"
-                className="bg-gray-500 text-white px-4 py-2 rounded"
+                className="bg-gray-500 text-white px-4 py-2 rounded transition-transform transform hover:scale-110 active:scale-90"
                 onClick={handlePreviousStep}
               >
                 Previous
               </button>
               <button
                 type="submit"
-                className="bg-indigo-500 text-white px-4 py-2 rounded"
+                className="bg-indigo-500 text-white px-4 py-2 rounded transition-transform transform hover:scale-110 active:scale-90"
               >
                 Submit
               </button>
