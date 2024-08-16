@@ -12,7 +12,8 @@ const Input = ({
 }) => (
   <div className="mb-4">
     <label className="block mb-1 font-medium text-sm">
-      {label} {required && <span className="text-red-500 text-xs">(Required)</span>}
+      {label}{" "}
+      {required && <span className="text-red-500 text-xs">(Required)</span>}
     </label>
     <input
       {...register(name, {
@@ -26,7 +27,9 @@ const Input = ({
       className="w-full p-2 border border-black border-1 rounded"
       {...rest}
     />
-    {error && <p className="text-red-500 font-semibold text-sm pt-1">{error}</p>}
+    {error && (
+      <p className="text-red-500 font-semibold text-sm pt-1">{error}</p>
+    )}
   </div>
 );
 
