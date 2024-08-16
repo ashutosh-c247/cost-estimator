@@ -51,10 +51,9 @@ const CalculationForm = () => {
 
   useEffect(() => {
     if (currentStep === 3) {
-      const unitsPerFloor = numberOfUnits / numberOfFloors;
       remove();
       for (let i = 0; i < numberOfFloors; i++) {
-        append({ value: unitsPerFloor });
+        append({ value: 0 });
       }
     }
   }, [currentStep, numberOfFloors, numberOfUnits, append, remove]);
@@ -96,28 +95,16 @@ const CalculationForm = () => {
 
     const totalUnits = numberOfUnits;
 
-    const updatedFields = fields
-      .map((field, i) => (i === index ? { ...field, value: newValue } : field))
-      .map((field) => ({
-        ...field,
-        value: field.value === -1 ? 0 : field.value,
-      }));
+    const updatedFields = fields.map((field, i) =>
+      i === index ? { ...field, value: newValue } : field
+    );
 
     const totalCurrentUnits = updatedFields.reduce(
       (sum, field) => sum + field.value,
       0
     );
 
-    const adjustment = totalCurrentUnits - totalUnits;
-    if (adjustment !== 0) {
-      const adjustIndex =
-        index === updatedFields.length - 1 ? 0 : updatedFields.length - 1;
-      updatedFields[adjustIndex].value -= adjustment;
-    }
-
-    if (
-      updatedFields.some((field) => field.value < 0 || field.value > totalUnits)
-    ) {
+    if (totalCurrentUnits > totalUnits) {
       setError(`numberOfUnitsPerFloor.${index}.value`, {
         type: "custom",
         message:
