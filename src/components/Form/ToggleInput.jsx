@@ -4,7 +4,7 @@ import { Controller } from "react-hook-form";
 
 const SwitchToggle = ({ name, control, label, defaultValue, error }) => {
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
       <label className="font-medium">{label}</label>
       <Controller
         name={name}

@@ -145,7 +145,7 @@ const CalculationForm = () => {
   };
 
   return (
-    <div className="p-8 space-y-4">
+    <div className="p-4 md:p-8 lg:p-12 space-y-4">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="border-b border-indigo-600 mb-8">
           <div className="text-lg font-medium text-indigo-600">
@@ -168,40 +168,42 @@ const CalculationForm = () => {
             transition={{ duration: 0.5 }}
             className="space-y-4"
           >
-            <Input
-              label="Project Name"
-              name="projectName"
-              register={register}
-              required
-              error={errors?.projectName?.message}
-              maxLength={20}
-            />
-            <Controller
-              name="projectLocation"
-              control={control}
-              render={({ field }) => (
-                <LocationAutocomplete
-                  value={field.value}
-                  onChange={field.onChange}
-                  label="Project Location"
-                  onSelect={(location) => {
-                    field.onChange(location.display_name);
-                  }}
-                />
-              )}
-            />
-            <Input
-              label="Total Project Area (Sqft)"
-              name="totalProjectArea"
-              register={register}
-              maxLength={12}
-              validation={{ ...validateFloat() }}
-              error={errors?.totalProjectArea?.message}
-            />
-            <div className="flex justify-between">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Input
+                label="Project Name"
+                name="projectName"
+                register={register}
+                required
+                error={errors?.projectName?.message}
+                maxLength={20}
+              />
+              <Controller
+                name="projectLocation"
+                control={control}
+                render={({ field }) => (
+                  <LocationAutocomplete
+                    value={field.value}
+                    onChange={field.onChange}
+                    label="Project Location"
+                    onSelect={(location) => {
+                      field.onChange(location.display_name);
+                    }}
+                  />
+                )}
+              />
+              <Input
+                label="Total Project Area (Sqft)"
+                name="totalProjectArea"
+                register={register}
+                maxLength={12}
+                validation={{ ...validateFloat() }}
+                error={errors?.totalProjectArea?.message}
+              />
+            </div>
+            <div className="flex flex-col sm:flex-row justify-between">
               <button
                 type="button"
-                className="bg-gray-500 text-white px-4 py-2 rounded transition-transform transform hover:scale-110 active:scale-90"
+                className="bg-gray-500 text-white px-4 py-2 rounded transition-transform transform hover:scale-110 active:scale-90 mb-2 sm:mb-0"
                 onClick={handleReset}
               >
                 Reset
@@ -226,7 +228,7 @@ const CalculationForm = () => {
             transition={{ duration: 0.5 }}
             className="space-y-4"
           >
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
               <Input
                 label="Number of Towers"
                 name="numberOfTowers"
@@ -264,7 +266,7 @@ const CalculationForm = () => {
                 error={errors?.numberOfUnits?.message}
               />
             </div>
-            <div className="flex justify-between">
+            <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0">
               <button
                 type="button"
                 className="bg-gray-500 text-white px-4 py-2 rounded transition-transform transform hover:scale-110 active:scale-90"
@@ -292,24 +294,28 @@ const CalculationForm = () => {
             transition={{ duration: 0.5 }}
             className="space-y-4"
           >
-            <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="col-span-1 md:col-span-2">
                 <label className="text-lg font-medium">
                   Number of Units per Floor
                 </label>
                 <hr className="mt-2 mb-4 border-gray-300" />
               </div>
               {fields.map((field, index) => (
-                <UnitToggle
-                  key={field.id}
-                  value={field.value}
-                  onChange={handleFieldChange(index)}
-                  label={`Floor ${index + 1}`}
-                  name={`numberOfUnitsPerFloor.${index}.value`}
-                  error={errors?.numberOfUnitsPerFloor?.[index]?.value?.message}
-                />
+                <div key={field.id} className="col-span-1">
+                  <UnitToggle
+                    key={field.id}
+                    value={field.value}
+                    onChange={handleFieldChange(index)}
+                    label={`Floor ${index + 1}`}
+                    name={`numberOfUnitsPerFloor.${index}.value`}
+                    error={
+                      errors?.numberOfUnitsPerFloor?.[index]?.value?.message
+                    }
+                  />
+                </div>
               ))}
-              <div className="col-span-2">
+              <div className="col-span-1 md:col-span-2">
                 <hr className="mt-2 mb-4 border-gray-300" />
               </div>
               <Input
@@ -328,7 +334,7 @@ const CalculationForm = () => {
                 error={errors?.isGroundFloorParkingOnly?.message}
               />
             </div>
-            <div className="flex justify-between">
+            <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0">
               <button
                 type="button"
                 className="bg-gray-500 text-white px-4 py-2 rounded transition-transform transform hover:scale-110 active:scale-90"
