@@ -344,15 +344,15 @@ const CalculationForm = () => {
             Property Calculation Results:
           </h2>
           <p>
-            Total construction cost for each Tower: ₹
+            Total construction cost for each Tower: $
             {propertyCalculation.costPerTower}
           </p>
           <p>
-            Total construction cost for project: ₹
+            Total construction cost for project: $
             {propertyCalculation.totalCostWithoutConversion}
           </p>
           <p>
-            So the total project cost would be(in millions): ₹
+            So the total project cost would be(in millions): $
             {propertyCalculation.totalCost} million
           </p>
           <button
