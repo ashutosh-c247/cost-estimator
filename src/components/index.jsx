@@ -293,10 +293,12 @@ const CalculationForm = () => {
             className="space-y-4"
           >
             <div className="grid grid-cols-2 gap-4">
-              <label className="text-lg font-medium">
-                Number of Units per Floor
-              </label>
-              <br />
+              <div className="col-span-2">
+                <label className="text-lg font-medium">
+                  Number of Units per Floor
+                </label>
+                <hr className="mt-2 mb-4 border-gray-300" />
+              </div>
               {fields.map((field, index) => (
                 <UnitToggle
                   key={field.id}
@@ -307,7 +309,9 @@ const CalculationForm = () => {
                   error={errors?.numberOfUnitsPerFloor?.[index]?.value?.message}
                 />
               ))}
-              <br />
+              <div className="col-span-2">
+                <hr className="mt-2 mb-4 border-gray-300" />
+              </div>
               <Input
                 label="Total Carpet Area of each floor (Sqft)"
                 name="totalCarpetArea"
