@@ -354,29 +354,41 @@ const CalculationForm = () => {
       </form>
 
       {propertyCalculation && (
-        <div className="bg-green-200 p-4 rounded-lg shadow-md mt-8">
-          <h2 className="text-xl font-bold mb-4">
-            Property Calculation Results:
+        <motion.div
+          className="bg-green-100 p-6 rounded-lg shadow-lg mt-8"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.4 }}
+        >
+          <h2 className="text-2xl font-semibold text-green-800 mb-4">
+            Property Calculation Results
           </h2>
-          <p>
-            Total construction cost for each Tower: $
-            {propertyCalculation.costPerTower}
+          <p className="text-lg text-gray-800 mb-2">
+            Total construction cost for each Tower:{" "}
+            <span className="font-bold">
+              ${propertyCalculation.costPerTower}
+            </span>
           </p>
-          <p>
-            Total construction cost for project: $
-            {propertyCalculation.totalCostWithoutConversion}
+          <p className="text-lg text-gray-800 mb-2">
+            Total construction cost for project:{" "}
+            <span className="font-bold">
+              ${propertyCalculation.totalCostWithoutConversion}
+            </span>
           </p>
-          <p>
-            So the total project cost would be(in millions): $
-            {propertyCalculation.totalCost} million
+          <p className="text-lg text-gray-800 mb-4">
+            So the total project cost would be (in millions):{" "}
+            <span className="font-bold">
+              ${propertyCalculation.totalCost} million
+            </span>
           </p>
           <button
             onClick={handleReset}
-            className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
+            className="mt-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-700 transition-transform transform hover:scale-105 active:scale-95"
           >
             Reset Form
           </button>
-        </div>
+        </motion.div>
       )}
     </div>
   );
