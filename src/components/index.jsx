@@ -92,44 +92,30 @@ const CalculationForm = () => {
   const handlePreviousStep = () => setCurrentStep((prev) => prev - 1);
 
   const recalculateUnits = (index, newValue) => {
-    clearErrors(`numberOfUnitsPerFloor.${index}.value`);
-
+    // Early return if newValue is negative
     if (newValue < 0) return;
 
     const totalUnits = numberOfUnits;
 
-    const updatedFields = fields.map((field, i) =>
-      i === index ? { ...field, value: newValue } : field
-    );
+    const updatedFields = fields
+      .map((field, i) => (i === index ? { ...field, value: newValue } : field))
+      .map((field) => ({
+        ...field,
+        value: field.value === -1 ? 0 : field.value,
+      }));
 
     const totalCurrentUnits = updatedFields.reduce(
       (sum, field) => sum + field.value,
       0
     );
 
-    if (totalCurrentUnits > totalUnits) {
-      const excessUnits = totalCurrentUnits - totalUnits;
-      if (index === updatedFields.length - 1) {
-        updatedFields[0].value = Math.max(
-          updatedFields[0].value - excessUnits,
-          0
-        );
-      } else {
-        const lastFieldIndex = updatedFields.length - 1;
-        updatedFields[lastFieldIndex].value = Math.max(
-          updatedFields[lastFieldIndex].value - excessUnits,
-          0
-        );
-      }
-    } else if (totalCurrentUnits < totalUnits) {
-      const additionalUnits = totalUnits - totalCurrentUnits;
-      if (index === updatedFields.length - 1) {
-        updatedFields[0].value += additionalUnits;
-      } else {
-        const lastFieldIndex = updatedFields.length - 1;
-        updatedFields[lastFieldIndex].value += additionalUnits;
-      }
+    const adjustment = totalCurrentUnits - totalUnits;
+    if (adjustment !== 0) {
+      const adjustIndex =
+        index === updatedFields.length - 1 ? 0 : updatedFields.length - 1;
+      updatedFields[adjustIndex].value -= adjustment;
     }
+
     if (
       updatedFields.some((field) => field.value < 0 || field.value > totalUnits)
     ) {
@@ -142,9 +128,9 @@ const CalculationForm = () => {
     }
 
     update(updatedFields);
-
     updatedFields.forEach((field, i) => {
       setValue(`numberOfUnitsPerFloor.${i}.value`, field.value);
+      clearErrors(`numberOfUnitsPerFloor.${i}.value`);
     });
   };
 
