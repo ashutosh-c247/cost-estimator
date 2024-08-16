@@ -121,7 +121,7 @@ const CalculationForm = () => {
       setError(`numberOfUnitsPerFloor.${index}.value`, {
         type: "custom",
         message:
-          "Total accumulated units for each floor cannot be more than number of Units in Tower",
+          "Total accumulated units for each floor cannot be more than number of units in tower",
       });
       return;
     }
