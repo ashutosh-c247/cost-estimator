@@ -93,10 +93,8 @@ const CalculationForm = () => {
 
   const recalculateUnits = (index, newValue) => {
     clearErrors(`numberOfUnitsPerFloor.${index}.value`);
-    if (newValue < 0) {
-      console.error("Error: Value cannot be negative.");
-      return;
-    }
+
+    if (newValue < 0) return;
 
     const totalUnits = numberOfUnits;
 
@@ -112,10 +110,16 @@ const CalculationForm = () => {
     if (totalCurrentUnits > totalUnits) {
       const excessUnits = totalCurrentUnits - totalUnits;
       if (index === updatedFields.length - 1) {
-        updatedFields[0].value -= excessUnits;
+        updatedFields[0].value = Math.max(
+          updatedFields[0].value - excessUnits,
+          0
+        );
       } else {
         const lastFieldIndex = updatedFields.length - 1;
-        updatedFields[lastFieldIndex].value -= excessUnits;
+        updatedFields[lastFieldIndex].value = Math.max(
+          updatedFields[lastFieldIndex].value - excessUnits,
+          0
+        );
       }
     } else if (totalCurrentUnits < totalUnits) {
       const additionalUnits = totalUnits - totalCurrentUnits;
@@ -127,7 +131,10 @@ const CalculationForm = () => {
       }
     }
 
-    if (updatedFields.some((field) => field.value < 0)) {
+    // Ensure no value is less than 0 or exceeds totalUnits
+    if (
+      updatedFields.some((field) => field.value < 0 || field.value > totalUnits)
+    ) {
       setError(`numberOfUnitsPerFloor.${index}.value`, {
         type: "custom",
         message: "Value cannot be more than number of Units in Tower",
