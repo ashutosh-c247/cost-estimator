@@ -4,7 +4,12 @@ import Input from "./Form/Input";
 import SwitchToggle from "./Form/ToggleInput";
 import UnitToggle from "./Form/UnitToggle";
 import LocationAutocomplete from "./Form/LocationAutocomplete";
-import { PER_SQ_FT_COST, validateNumeric, validateFloat } from "@/constant";
+import {
+  PER_SQ_FT_COST,
+  validateNumeric,
+  validateFloat,
+  validateMin,
+} from "@/constant";
 import { motion } from "framer-motion";
 
 const initialValues = {
@@ -61,6 +66,19 @@ const CalculationForm = () => {
   const onSubmit = (data) => {
     const { totalBuiltUpArea, numberOfFloors, numberOfTowers } = data;
 
+    const hasError = fields.some((field, i) => {
+      if (field.value === 0) {
+        setError(`numberOfUnitsPerFloor.${i}.value`, {
+          type: "manual",
+          message: "Floor units cannot be zero.",
+        });
+        return true;
+      }
+      return false;
+    });
+
+    if (hasError) return;
+
     const totalAreaPerTower = totalBuiltUpArea * numberOfFloors;
 
     const costPerTower = PER_SQ_FT_COST * totalAreaPerTower;
@@ -79,7 +97,7 @@ const CalculationForm = () => {
   const handleNextStep = async () => {
     const isStepValid = await trigger(
       currentStep === 1
-        ? ["projectName", "projectLocation"]
+        ? ["projectName", "projectLocation", "totalProjectArea"]
         : [
             "numberOfTowers",
             "totalBuiltUpArea",
@@ -96,6 +114,7 @@ const CalculationForm = () => {
   const handlePreviousStep = () => setCurrentStep((prev) => prev - 1);
 
   const recalculateUnits = (index, newValue) => {
+    clearErrors(`numberOfUnitsPerFloor.${index}.value`);
     if (newValue < 0) return;
 
     const updatedFields = fields.map((field, i) =>
@@ -171,7 +190,7 @@ const CalculationForm = () => {
                 name="totalProjectArea"
                 register={register}
                 maxLength={12}
-                validation={{ ...validateFloat() }}
+                validation={{ ...validateFloat(), ...validateMin(3) }}
                 error={errors?.totalProjectArea?.message}
               />
             </div>
@@ -219,7 +238,7 @@ const CalculationForm = () => {
                 register={register}
                 required
                 maxLength={12}
-                validation={{ ...validateFloat() }}
+                validation={{ ...validateFloat(), ...validateMin(2) }}
                 error={errors?.totalBuiltUpArea?.message}
               />
               <Input

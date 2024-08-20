@@ -13,14 +13,21 @@ export const PER_SQ_FT_COST = 350;
 
 export const validateNumeric = () => ({
   pattern: {
-    value: /^\d+$/,
+    value: /^([1-9]\d*)$/,
     message: "Please enter a valid number",
   },
 });
 
 export const validateFloat = () => ({
   pattern: {
-    value: /^\d*\.?\d*$/,
+    value: /^([1-9]\d*)\.?\d*$/,
     message: "Please enter a valid number",
+  },
+});
+
+export const validateMin = (min) => ({
+  minLength: {
+    value: min,
+    message: `Please enter a number greater than or equal to ${min}`,
   },
 });
