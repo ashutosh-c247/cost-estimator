@@ -60,14 +60,19 @@ const CalculationForm = () => {
 
   const onSubmit = (data) => {
     const { totalBuiltUpArea, numberOfFloors, numberOfTowers } = data;
+
     const totalAreaPerTower = totalBuiltUpArea * numberOfFloors;
+
     const costPerTower = PER_SQ_FT_COST * totalAreaPerTower;
+
     const calculatedTotalCost = costPerTower * numberOfTowers;
+    const totalCostInMillions = (calculatedTotalCost / 1e6).toFixed(2);
+
     setPropertyCalculation({
-      costPerTower,
-      totalAreaPerTower,
-      totalCostWithoutConversion: calculatedTotalCost,
-      totalCost: (calculatedTotalCost / 1e6).toFixed(2),
+      costPerTower: costPerTower.toFixed(2),
+      totalAreaPerTower: totalAreaPerTower.toFixed(2),
+      totalCostWithoutConversion: calculatedTotalCost.toFixed(2),
+      totalCost: totalCostInMillions,
     });
   };
 
@@ -204,7 +209,7 @@ const CalculationForm = () => {
                 name="numberOfTowers"
                 register={register}
                 required
-                maxLength={12}
+                maxLength={5}
                 validation={{ ...validateNumeric() }}
                 error={errors?.numberOfTowers?.message}
               />
@@ -213,7 +218,7 @@ const CalculationForm = () => {
                 name="totalBuiltUpArea"
                 register={register}
                 required
-                maxLength={16}
+                maxLength={12}
                 validation={{ ...validateFloat() }}
                 error={errors?.totalBuiltUpArea?.message}
               />
@@ -222,7 +227,7 @@ const CalculationForm = () => {
                 name="numberOfFloors"
                 register={register}
                 required
-                maxLength={12}
+                maxLength={3}
                 validation={{ ...validateNumeric() }}
                 error={errors?.numberOfFloors?.message}
               />
