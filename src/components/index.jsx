@@ -12,6 +12,13 @@ import {
 } from "@/constant";
 import { motion } from "framer-motion";
 
+const formatCost = (cost) => {
+  if (cost >= 1e6) {
+    return `${(cost / 1e6).toFixed(2)}M`;
+  }
+  return cost.toFixed(2);
+};
+
 const initialValues = {
   projectLocation: "",
   projectName: "",
@@ -80,17 +87,14 @@ const CalculationForm = () => {
     if (hasError) return;
 
     const totalAreaPerTower = totalBuiltUpArea * numberOfFloors;
-
     const costPerTower = PER_SQ_FT_COST * totalAreaPerTower;
-
     const calculatedTotalCost = costPerTower * numberOfTowers;
-    const totalCostInMillions = (calculatedTotalCost / 1e6).toFixed(2);
 
     setPropertyCalculation({
       costPerTower: costPerTower.toFixed(2),
       totalAreaPerTower: totalAreaPerTower.toFixed(2),
       totalCostWithoutConversion: calculatedTotalCost.toFixed(2),
-      totalCost: totalCostInMillions,
+      totalCost: formatCost(calculatedTotalCost),
     });
   };
 
@@ -190,7 +194,13 @@ const CalculationForm = () => {
                 name="totalProjectArea"
                 register={register}
                 maxLength={12}
-                validation={{ ...validateFloat(), ...validateMin(3) }}
+                validation={{
+                  ...validateFloat(),
+                  ...validateMin(
+                    3,
+                    "Total Project Area cannot be less than 100 sqft"
+                  ),
+                }}
                 error={errors?.totalProjectArea?.message}
               />
             </div>
@@ -238,7 +248,13 @@ const CalculationForm = () => {
                 register={register}
                 required
                 maxLength={12}
-                validation={{ ...validateFloat(), ...validateMin(3) }}
+                validation={{
+                  ...validateFloat(),
+                  ...validateMin(
+                    3,
+                    "Total Built Up Area cannot be less than 100 sqft"
+                  ),
+                }}
                 error={errors?.totalBuiltUpArea?.message}
               />
               <Input
@@ -362,9 +378,10 @@ const CalculationForm = () => {
             </span>
           </p>
           <p className="text-lg text-gray-800 mb-4">
-            So the total project cost would be (in millions):{" "}
+            So the total project cost would be:{" "}
             <span className="font-bold">
-              ${propertyCalculation.totalCost} million
+              ${propertyCalculation.totalCost}{" "}
+              {propertyCalculation.totalCost >= 1e6 ? "million" : ""}
             </span>
           </p>
           <button

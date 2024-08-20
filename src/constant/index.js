@@ -25,9 +25,9 @@ export const validateFloat = () => ({
   },
 });
 
-export const validateMin = (min) => ({
+export const validateMin = (min, message) => ({
   minLength: {
     value: min,
-    message: `Please enter a number greater than or equal to ${min}`,
+    message: message,
   },
 });
