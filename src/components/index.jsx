@@ -238,7 +238,7 @@ const CalculationForm = () => {
                 register={register}
                 required
                 maxLength={12}
-                validation={{ ...validateFloat(), ...validateMin(2) }}
+                validation={{ ...validateFloat(), ...validateMin(3) }}
                 error={errors?.totalBuiltUpArea?.message}
               />
               <Input
